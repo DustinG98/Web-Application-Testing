@@ -1,50 +1,79 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import './App.css';
 
 import Dashboard from './components/Dashboard'
 import Display from './components/Display'
 
-function App() {
-  const [balls, setBalls] = useState(0)
-  const [strikes, setStrikes] = useState(0)
+class App extends React.Component {
+  state = {
+    balls: 0,
+    strikes: 0
+  }
 
   //IF BALLS IS 4 reset to 0 or STRIKES IS 3 reset to 0
-  useEffect(() => {
-    if(balls === 4) {
-      setBalls(0)
-    } 
-    if(strikes === 3) {
-      setStrikes(0)
+  // useEffect(() => {
+  //   if(balls === 4) {
+  //     setBalls(0)
+  //   } 
+  //   if(strikes === 3) {
+  //     setStrikes(0)
+  //   }
+  // }, [balls, strikes])
+  componentDidUpdate() {
+    if(this.state.balls === 4) {
+      this.setState({
+        ...this.state,
+        balls: 0
+      })
     }
-  }, [balls, strikes])
+    if(this.state.strikes === 3) {
+      this.setState({
+        ...this.state,
+        strikes: 0
+      })
+    }
+  }
 
   //FOUL
-  const foul = () => {
-    if(strikes === 0) {
-      setStrikes(1)
+   foul = () => {
+    if(this.state.strikes === 0) {
+      this.setState({...this.state, strikes: 1})
     }
-    if(strikes === 1) {
-      setStrikes(2)
+    if(this.state.strikes === 1) {
+      this.setState({...this.state, strikes: 2})
     } 
     return
   }
 
 
   //HIT
-  const hit = () => {
-    setStrikes(0);
-    setBalls(0);
+  hit = () => {
+    this.setState({
+      balls: 0,
+      strikes: 0
+    })
     return;
   }
 
+  //ADD STRIKE
+  addStrike = () => {
+    this.setState({...this.state, strikes: this.state.strikes + 1})
+  }
 
-  return (
-    <div className="App">
-      <Dashboard foul={foul} hit={hit}/>
-      <Display balls={balls} strikes={strikes}/>
-    </div>
-  );
+  //ADD BALL
+  addBall = () => {
+    this.setState({...this.state, balls: this.state.balls + 1})
+  }
+ 
+  render() {
+    return (
+      <div className="App">
+        <Dashboard foul={this.foul} hit={this.hit} addBall={this.addBall} addStrike={this.addStrike}/>
+        <Display balls={this.state.balls} strikes={this.state.strikes}/>
+      </div>
+    );
+  }
 }
 
 export default App;
