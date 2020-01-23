@@ -4,8 +4,8 @@ const Display = ({ balls, strikes }) => {
     return (
         <div>
             <h2>Welcome to the display</h2>
-            <p>Balls: {balls}</p>
-            <p>Strikes: {strikes}</p>
+            <p data-testid="balls">Balls: {balls}</p>
+            <p data-testid="strikes">Strikes: {strikes}</p>
         </div>
     )
 }

@@ -5,6 +5,23 @@ import './App.css';
 import Dashboard from './components/Dashboard'
 import Display from './components/Display'
 
+export const foulTest = (strikes) => {
+  if(strikes === 0) {
+    return strikes = 1;
+  }
+  if(strikes === 1) {
+    return strikes = 2
+  }
+  return strikes = 2;
+}
+
+export const hitTest = () => {
+  let balls = 0;
+  let strikes = 0;
+  return balls, strikes;
+}
+
+
 class App extends React.Component {
   state = {
     balls: 0,
