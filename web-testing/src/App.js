@@ -5,7 +5,7 @@ import './App.css';
 import Dashboard from './components/Dashboard'
 import Display from './components/Display'
 
-export const foulTest = (strikes) => {
+export const foul = (strikes) => {
   if(strikes === 0) {
     return strikes = 1;
   }
@@ -15,10 +15,18 @@ export const foulTest = (strikes) => {
   return strikes = 2;
 }
 
-export const hitTest = () => {
-  let balls = 0;
-  let strikes = 0;
-  return balls, strikes;
+export const hit = (currentBalls, currentStrikes) => {
+  currentBalls = 0;
+  currentStrikes = 0;
+  return [currentBalls, currentStrikes];
+}
+
+export const addStrike = (currentStrikes) => {
+  return currentStrikes + 1;
+}
+
+export const addBall = (currentBalls) => {
+  return currentBalls + 1;
 }
 
 
@@ -29,14 +37,6 @@ class App extends React.Component {
   }
 
   //IF BALLS IS 4 reset to 0 or STRIKES IS 3 reset to 0
-  // useEffect(() => {
-  //   if(balls === 4) {
-  //     setBalls(0)
-  //   } 
-  //   if(strikes === 3) {
-  //     setStrikes(0)
-  //   }
-  // }, [balls, strikes])
   componentDidUpdate() {
     if(this.state.balls === 4) {
       this.setState({
@@ -54,39 +54,39 @@ class App extends React.Component {
 
   //FOUL
    foul = () => {
-    if(this.state.strikes === 0) {
-      this.setState({...this.state, strikes: 1})
-    }
-    if(this.state.strikes === 1) {
-      this.setState({...this.state, strikes: 2})
-    } 
-    return
+     const newStrikes = foul(this.state.strikes)
+     this.setState({...this.state, strikes: newStrikes})
+
   }
 
 
   //HIT
   hit = () => {
+    const newState = hit(this.state.balls, this.state.strikes)
+
     this.setState({
-      balls: 0,
-      strikes: 0
+      balls: newState[0],
+      strikes: newState[1]
     })
     return;
   }
 
   //ADD STRIKE
   addStrike = () => {
-    this.setState({...this.state, strikes: this.state.strikes + 1})
+    const newStrikes = addStrike(this.state.strikes)
+    this.setState({...this.state, strikes: newStrikes})
   }
 
   //ADD BALL
   addBall = () => {
-    this.setState({...this.state, balls: this.state.balls + 1})
+    const newBalls = addBall(this.state.balls)
+    this.setState({...this.state, balls: newBalls})
   }
  
   render() {
     return (
       <div className="App">
-        <Dashboard foul={this.foul} hit={this.hit} addBall={this.addBall} addStrike={this.addStrike}/>
+        <Dashboard foul={this.foul} hit={this.hit} addBall={this.addBall} addStrike={this.addStrike} />
         <Display balls={this.state.balls} strikes={this.state.strikes}/>
       </div>
     );
