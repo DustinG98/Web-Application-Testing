@@ -1,11 +1,13 @@
 import React from 'react'
 
-const Display = ({ balls, strikes }) => {
+const Display = ({ balls, strikes, outs, innings }) => {
     return (
         <div>
-            <h2>Welcome to the display</h2>
             <p data-testid="balls">Balls: {balls}</p>
             <p data-testid="strikes">Strikes: {strikes}</p>
+            <p>Outs: {outs}</p>
+            {console.log(innings)}
+            <p>Inning: {innings === 1 ? 1 : Math.floor(innings / 2)}</p>
         </div>
     )
 }

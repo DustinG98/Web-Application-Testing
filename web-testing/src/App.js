@@ -33,7 +33,9 @@ export const addBall = (currentBalls) => {
 class App extends React.Component {
   state = {
     balls: 0,
-    strikes: 0
+    strikes: 0,
+    innings: 1,
+    outs: 0
   }
 
   //IF BALLS IS 4 reset to 0 or STRIKES IS 3 reset to 0
@@ -48,6 +50,21 @@ class App extends React.Component {
       this.setState({
         ...this.state,
         strikes: 0
+      })
+    }
+    if(this.state.outs === 3) {
+      this.setState({
+        ...this.state,
+        outs: 0,
+        innings: this.state.innings + 1 
+      })
+    }
+    if(this.state.innings === 19) {
+      this.setState({
+        balls: 0,
+        strikes: 0,
+        outs: 0,
+        innings: 1
       })
     }
   }
@@ -82,12 +99,17 @@ class App extends React.Component {
     const newBalls = addBall(this.state.balls)
     this.setState({...this.state, balls: newBalls})
   }
+
+  //ADD OUT
+  addOut = () => {
+    this.setState({...this.state, outs: this.state.outs + 1})
+  }
  
   render() {
     return (
       <div className="App">
-        <Dashboard foul={this.foul} hit={this.hit} addBall={this.addBall} addStrike={this.addStrike} />
-        <Display balls={this.state.balls} strikes={this.state.strikes}/>
+        <Display balls={this.state.balls} strikes={this.state.strikes} outs={this.state.outs} innings={this.state.innings}/>
+        <Dashboard foul={this.foul} hit={this.hit} addBall={this.addBall} addStrike={this.addStrike} addOut={this.addOut}/>
       </div>
     );
   }
